@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseExample.h" />
+    <ClInclude Include="BinaryExample.h" />
     <ClInclude Include="BinaryIO.h" />
     <ClInclude Include="FuncationTest.h" />
     <ClInclude Include="GameExample.h" />

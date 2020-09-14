@@ -22,22 +22,28 @@ void ReadTest() {
     //ReadV1(fileName);
     ReadV2(readFileName);
     ReadV3(readFileName);
+    std::string res = ReadV4(readFileName);
+    std::cout << res;
 }
 
 
-
+#include<locale>
 void UTF8Test() {
     std::locale china("chs");   //use china character
     std::wcin.imbue(china);     //use locale object
     std::wcout.imbue(china);
 
     char fileName[] = "file/utf8.txt";
-    wchar_t text[] = L"一二三四五";
+    wchar_t text[] = L"一二三四五六";
 
     OverwriteUTF8(fileName, text);
 
-    wchar_t* res = ReadUTF8(fileName);
-    if (res) {
-        std::wcout << "字符：" << res << "\n";
+    std::wstring res = ReadUTF8(fileName);
+    if (!res.empty()) {
+
+        std::wcout << L"字符：" << res << "\n";
+    }
+    else {
+        std::cout << "NULL";
     }
 }

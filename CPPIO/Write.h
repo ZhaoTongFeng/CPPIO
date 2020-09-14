@@ -49,7 +49,7 @@ bool AppendContent(const char* fileName,const char* content) {
 }
 
 //¶ÁÈ¡UTF8ÎÄ¼þ
-#include<locale>
+
 #include <codecvt>
 bool OverwriteUTF8(const char* fileName, const wchar_t* content) {
     std::wofstream wof(fileName,

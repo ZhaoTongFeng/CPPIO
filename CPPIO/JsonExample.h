@@ -48,16 +48,19 @@ void ReadBlocks() {
         blocks[i] = new int* [4];
         for (int j = 0; j < 4; j++) {
             blocks[i][j] = new int[4];
-        }
-    }
-
-    for (int i = 0; i < count; i++) {
-        for (int j = 0; j < 4; j++) {
             for (int k = 0; k < 4; k++) {
                 blocks[i][j][k] = 0;
             }
         }
     }
+    ////初始化为0
+    //for (int i = 0; i < count; i++) {
+    //    for (int j = 0; j < 4; j++) {
+    //        for (int k = 0; k < 4; k++) {
+    //            blocks[i][j][k] = 0;
+    //        }
+    //    }
+    //}
 
     //将文件中的数组读取到三维数组
     int n = 0;
@@ -73,6 +76,7 @@ void ReadBlocks() {
         }
     }
 
+    //查看现在三维数组中的数据
     for (int i = 0; i < count; i++) {
         for (int j = 0; j < 4; j++) {
             for (int k = 0;k < 4; k++) {
@@ -100,6 +104,7 @@ void ReadBlocks() {
     delete[] blocks;
 }
 
+//读取英雄联盟英雄数据
 void ReadJSON() {    
     const std::string fileName = "./json/Heros.json";
     rapidjson::Document doc = ReadFile(fileName);
@@ -129,6 +134,7 @@ void ReadJSON() {
     std::cout << "\n";
 }
 
+//测试构建一个JSON Document并写入文件
 void WriteJSON() {
     //1.初始化Document
     rapidjson::Document doc;

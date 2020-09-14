@@ -74,5 +74,8 @@
     <ClInclude Include="FuncationTest.h">
       <Filter>头文件\Test</Filter>
     </ClInclude>
+    <ClInclude Include="BinaryExample.h">
+      <Filter>头文件\Example</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

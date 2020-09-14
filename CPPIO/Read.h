@@ -80,32 +80,42 @@ char* ReadV3(char* fileName) {
 }
 
 
+std::string ReadV4(char* fileName) {
+    //打开文件（输入|二进制|文件指针置于末尾）
+    std::ifstream ifstreamfile(fileName,
+        std::ifstream::in
+    );
+    if (!ifstreamfile) {
+        std::cout << "文件打开失败";
+        return "";
+    }
+    //***********************************************************
+    std::string res;
+    ifstreamfile >> res;
+    return res;
+}
+
+
 
 
 //读取UTF-8
-#include<locale>
+
 #include <codecvt>
-wchar_t* ReadUTF8(char* fileName) 
+std::wstring ReadUTF8(char* fileName)
 {
     std::wifstream wif(fileName,
-        std::ifstream::in | std::ifstream::ate
+        std::wifstream::in
     );
     if (!wif) {
         std::cout << "文件打开失败";
-        return NULL;
+        return L"";
     }
-    std::ifstream::pos_type size = wif.tellg();
-    wif.seekg(0, wif.beg);
     //***********************************************************
-    //解码器
-    //https://www.cnblogs.com/cthon/p/9340808.html
+    //解码
     std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
     wif.imbue(std::locale(wif.getloc(), codecvtToUnicode));
 
-    wchar_t* buffer = new wchar_t[static_cast<size_t>(size) + 1];
-    wif.read(buffer, static_cast<size_t>(size));
-    buffer[static_cast<size_t>(size)] = 0;
-    std::wcout << "Read " << wif.gcount() << " characters\nContent:" << buffer << "\n";
-    wif.close();
-    return buffer;
+    std::wstring wst;
+    wif >> wst;
+    return wst;
 }
