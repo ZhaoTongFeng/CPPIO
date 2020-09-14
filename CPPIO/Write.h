@@ -1,12 +1,9 @@
 #pragma once
 #include <iostream>
 #include <string>
-//1.引入库文件
 #include <fstream>
 
 bool OverwriteContent(const char* fileName, const char* content) {
-    //2.打开文件
-
     //打开文件方法一
     std::ofstream truncfile(fileName,
         std::ofstream::out |
@@ -63,7 +60,7 @@ bool OverwriteUTF8(const char* fileName, const wchar_t* content) {
 
     std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
     wof.imbue(std::locale(wof.getloc(), codecvtToUnicode));
-    
+
     wof.write(content, std::wcslen(content));
     wof.close();
     return true;

@@ -2,43 +2,31 @@
 #include "Write.h"
 #include "Read.h"
 
-
+void ReadTest() {
+    char fileName[] = "./file/read.txt";
+    GetString(fileName);
+    GetChars(fileName);
+    GetCharsV(fileName);
+    GetWString(fileName);
+}
 
 
 void WriteTest() {
-    char writeFileName[] = "file/read.txt";
-    char truncFileName[] = "file/truncFile.txt";
-    char appFileName[] = "file/appFile.txt";
-    char content[] = "Content";
+    char truncFileName[] = "./file/truncFile.txt";
+    char appFileName[] = "./file/appFile.txt";
+    char content[] = "abcd1234厄萨斯厄薩斯Атрокс";
 
     for (int i = 0; i < 2; i++) {
         OverwriteContent(truncFileName, content);
         AppendContent(appFileName, content);
     }
-}
 
-void ReadTest() {
-    char readFileName[] = "file/read.txt";
-    //ReadV1(fileName);
-    ReadV2(readFileName);
-    ReadV3(readFileName);
-    std::string res = ReadV4(readFileName);
-    std::cout << res;
-}
+    char utf8File[] = "./file/utf8.txt";
+    wchar_t text[] = L"abcd1234厄萨斯厄薩斯Атрокс";
+    OverwriteUTF8(utf8File, text);
 
 
-#include<locale>
-void UTF8Test() {
-    std::locale china("chs");   //use china character
-    std::wcin.imbue(china);     //use locale object
-    std::wcout.imbue(china);
-
-    char fileName[] = "file/utf8.txt";
-    wchar_t text[] = L"一二三四五六";
-
-    OverwriteUTF8(fileName, text);
-
-    std::wstring res = ReadUTF8(fileName);
+    std::wstring res = GetWString(utf8File);
     if (!res.empty()) {
 
         std::wcout << L"字符：" << res << "\n";
@@ -47,3 +35,6 @@ void UTF8Test() {
         std::cout << "NULL";
     }
 }
+
+
+

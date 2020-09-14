@@ -2,12 +2,15 @@
 #include "JsonExample.h"
 #include "BinaryExample.h"
 
+
+
 int main()
 {
-    //WriteTest();
+    setlocale(LC_ALL, "");
+    
     ReadTest();
-
-    //UTF8Test();
+    WriteTest();
+    
 
     //ReadJSON();
     //ReadBlocks();
