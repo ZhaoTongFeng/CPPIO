@@ -114,7 +114,6 @@ std::wstring ReadUTF8(char* fileName)
     //½âÂë
     std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
     wif.imbue(std::locale(wif.getloc(), codecvtToUnicode));
-
     std::wstring wst;
     wif >> wst;
     return wst;
