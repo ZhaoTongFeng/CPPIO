@@ -10,7 +10,6 @@ void ReadTest() {
     GetWString(fileName);
 }
 
-
 void WriteTest() {
     char truncFileName[] = "./file/truncFile.txt";
     char appFileName[] = "./file/appFile.txt";

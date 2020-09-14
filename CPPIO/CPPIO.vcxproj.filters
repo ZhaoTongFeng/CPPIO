@@ -47,9 +47,6 @@
     <ClInclude Include="ReadJson.h">
       <Filter>头文件\Json</Filter>
     </ClInclude>
-    <ClInclude Include="WriteJson.h">
-      <Filter>头文件\Json</Filter>
-    </ClInclude>
     <ClInclude Include="BinaryIO.h">
       <Filter>头文件\Binary</Filter>
     </ClInclude>
@@ -76,6 +73,9 @@
     </ClInclude>
     <ClInclude Include="BinaryExample.h">
       <Filter>头文件\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteJson.h">
+      <Filter>头文件\Json</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
