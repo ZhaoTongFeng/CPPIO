@@ -8,11 +8,11 @@ int main()
 {
     setlocale(LC_ALL, "");
     
-    ReadTest();
-    WriteTest();
+    //ReadTest();
+    //WriteTest();
     
 
-    //ReadJSON();
+    ReadJSON();
     //ReadBlocks();
     //WriteJSON();
     //BinaryIO();

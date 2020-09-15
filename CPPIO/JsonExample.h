@@ -9,7 +9,7 @@
 //俄罗斯方块中从文件读取出方块形状
 void ReadBlocks() {
     const std::string fileName = "./json/Blocks.json";
-    rapidjson::Document doc = ReadFile(fileName);
+    rapidjson::Document doc = GetDocument(fileName);
     if (!doc.IsObject()) {
         std::cout << "Faild to valid JSON";
         return;
@@ -106,32 +106,40 @@ void ReadBlocks() {
 
 //读取英雄联盟英雄数据
 void ReadJSON() {    
-    const std::string fileName = "./json/Heros.json";
-    rapidjson::Document doc = ReadFile(fileName);
+    //1.从文件中读取数据，将字符串转换成`rapidjson::Document`
+    const std::string fileName = "./json/Riven.json";
+    rapidjson::Document doc = GetDocument(fileName);
     if (!doc.IsObject()) {
         std::cout << "Faild to valid JSON";
         return;
     }
-    std::cout << "id:" << doc["id"].GetString() << "\n";
-    
-    //深层节点
-    rapidjson::Value& vStats = doc["stats"];
-    rapidjson::Value& vHp = vStats["hp"];
-    rapidjson::Value& vSpellblock = vStats["spellblock"];
 
-    std::cout << "hp:"<<vHp.GetInt() << "\n";
-    std::cout << "spellblock:"<<vSpellblock.GetDouble() << "\n";
+    //2.从`rapidjson::Document`获取变量
+    //拷贝到变量中使用
+    std::string id = doc["id"].GetString();
+    std::cout << "id:" << id << " characters size:" << id.size() <<" id[0]:"<<id[0]<< "\n";
     
-    //拷贝到变量
-    std::string key = doc["name"].GetString();
-    std::cout << "key:" << key.size() << "\n";
-
+    //获取变量
+    std::cout << "key:" << doc["key"].GetString() << "\n";
+    
+    std::string name = doc["name"].GetString();
+    std::cout << "name:" << name << " characters size:"<< name.size() <<" key[0]:"<< name[0]<< "\n";
+    std::cout << "title:" << doc["title"].GetString() << "\n";
+    
     //遍历数组
     std::cout << "skins:";
     for (auto& kv : doc["skins"].GetArray()) {
         std::cout << kv.GetInt() << ",";
     }
     std::cout << "\n";
+
+    //获取深层变量
+    rapidjson::Value& vStats = doc["stats"];
+    rapidjson::Value& vHp = vStats["hp"];
+    rapidjson::Value& vSpellblock = vStats["spellblock"];
+
+    std::cout << "hp:"<<vHp.GetInt() << "\n";
+    std::cout << "spellblock:"<<vSpellblock.GetDouble() << "\n";
 }
 
 //测试构建一个JSON Document并写入文件
@@ -167,7 +175,7 @@ void WriteJSON() {
 void OtherOption() {
     //Update&&Delete Test
     const std::string fileName = "out.json";
-    rapidjson::Document inDoc = ReadFile(fileName);
+    rapidjson::Document inDoc = GetDocument(fileName);
     if (!inDoc.IsObject()) { std::cout << "Faild to valid JSON"; return; }
 
     //Update

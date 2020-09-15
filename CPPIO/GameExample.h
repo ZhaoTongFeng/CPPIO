@@ -20,7 +20,7 @@ void SaveTest() {
 
     //1.开始游戏：读取数据
     const std::string fileName = "save.json";
-    rapidjson::Document doc = ReadFile(fileName);
+    rapidjson::Document doc = GetDocument(fileName);
     if (!doc.IsObject()) {
         doc.SetObject();
         doc.AddMember("level", level, doc.GetAllocator());
@@ -79,7 +79,7 @@ void SaveTest2() {
 
     //1.游戏开始：读取数据
     const std::string fileName = "save.json";
-    rapidjson::Document doc = ReadFile(fileName);
+    rapidjson::Document doc = GetDocument(fileName);
     if (!doc.IsObject()) {
         doc.SetObject();
         pawn = new Pawn(0, "pawn");
@@ -273,7 +273,7 @@ int GameExample()
 
     //1.游戏开始：读取数据
     const std::string fileName = "save.json";
-    rapidjson::Document doc = ReadFile(fileName);
+    rapidjson::Document doc = GetDocument(fileName);
     if (!doc.IsObject()) {
         doc.SetObject();
         //首次创建，若干个Actor的实例添加到容器
