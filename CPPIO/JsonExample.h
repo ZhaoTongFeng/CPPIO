@@ -124,8 +124,10 @@ void ReadJSON() {
     
     std::string name = doc["name"].GetString();
     std::cout << "name:" << name << " characters size:"<< name.size() <<" key[0]:"<< name[0]<< "\n";
+    
     std::cout << "title:" << doc["title"].GetString() << "\n";
     
+    std::cout << "\n";
     //遍历数组
     std::cout << "skins:";
     for (auto& kv : doc["skins"].GetArray()) {
@@ -141,6 +143,62 @@ void ReadJSON() {
     std::cout << "hp:"<<vHp.GetInt() << "\n";
     std::cout << "spellblock:"<<vSpellblock.GetDouble() << "\n";
 }
+
+
+void ReadWJSON() {
+    //1.从文件中读取数据，将字符串转换成`rapidjson::Document`
+    const std::string fileName = "./json/Riven.json";
+    WDocument doc = GetWDocument(fileName);
+
+    if (!doc.IsObject()) {
+        std::cout << "Faild to valid JSON";
+        return;
+    }
+
+    ////2.从`rapidjson::Document`获取变量
+    ////拷贝到变量中使用
+    //std::string id = doc["id"].GetString();
+    //std::cout << "id:" << id << " characters size:" << id.size() << " id[0]:" << id[0] << "\n";
+
+    ////获取变量
+    //std::cout << "key:" << doc["key"].GetString() << "\n";
+
+    //std::string name = doc["name"].GetString();
+    //std::cout << "name:" << name << " characters size:" << name.size() << " key[0]:" << name[0] << "\n";
+
+    //std::cout << "title:" << doc["title"].GetString() << "\n";
+
+    //std::cout << "\n";
+    ////遍历数组
+    //std::cout << "skins:";
+    //for (auto& kv : doc["skins"].GetArray()) {
+    //    std::cout << kv.GetInt() << ",";
+    //}
+    //std::cout << "\n";
+
+    ////获取深层变量
+    //rapidjson::Value& vStats = doc["stats"];
+    //rapidjson::Value& vHp = vStats["hp"];
+    //rapidjson::Value& vSpellblock = vStats["spellblock"];
+
+    //std::cout << "hp:" << vHp.GetInt() << "\n";
+    //std::cout << "spellblock:" << vSpellblock.GetDouble() << "\n";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //测试构建一个JSON Document并写入文件
 void WriteJSON() {

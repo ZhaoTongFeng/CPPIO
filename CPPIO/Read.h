@@ -19,7 +19,7 @@ std::string GetString(char* fileName) {
 
 //∂¡»°UTF-8
 #include <codecvt>
-std::wstring GetWString(char* fileName)
+std::wstring GetWString(const char* fileName)
 {
     std::wstring wst = L"";
     std::wifstream wif(fileName);

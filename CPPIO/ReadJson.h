@@ -17,7 +17,6 @@ rapidjson::Document GetDocument(const std::string& fileName) {
         std::cout << "Open File Faild";
         return doc;
     }
-    
     std::ifstream::pos_type size = file.tellg();
     file.seekg(0, std::ifstream::beg);
     std::vector<char> buffer(static_cast<size_t>(size) + 1);
@@ -28,20 +27,14 @@ rapidjson::Document GetDocument(const std::string& fileName) {
     return doc;
 }
 
+#include "Read.h"
 
 typedef rapidjson::GenericDocument<rapidjson::UTF16<> > WDocument;
 typedef rapidjson::GenericValue<rapidjson::UTF16<> > WValue;
 //读取UTF8编码的JSON文件数据到Document
 WDocument GetWDocument(const std::string& fileName) {
     WDocument doc;
-    std::wifstream file(fileName);
-    if (!file) {
-        std::cout << "Open File Faild";
-        return doc;
-    }
-    std::wstring wst;
-    file >> wst;
-    file.close();
-    doc.Parse(wst.c_str());
+    std::wstring wstr = GetWString(fileName.c_str());
+    doc.Parse(wstr.c_str());
     return doc;
 }

@@ -12,7 +12,8 @@ int main()
     //WriteTest();
     
 
-    ReadJSON();
+    //ReadJSON();
+    ReadWJSON();
     //ReadBlocks();
     //WriteJSON();
     //BinaryIO();
