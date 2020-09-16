@@ -159,6 +159,9 @@
     <ClInclude Include="Write.h" />
     <ClInclude Include="WriteJson.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="H:\DaSiShang\Enterprise Network Management\lab\Lab1\1710241909_Lab1.docx" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

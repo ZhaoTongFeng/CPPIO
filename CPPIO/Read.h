@@ -4,15 +4,18 @@
 #include <fstream>
 
 
-std::string GetString(char* fileName) {
+std::string GetString(const char* fileName) {
     std::string res = "";
     std::ifstream ifs(fileName);
     if (!ifs) {
         std::cout << fileName << "文件打开失败\n";
         return res;
     }
+    //std::codecvt_utf8<char, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < char, 0x10ffff, std::consume_header >;
+    //ifs.imbue(std::locale(ifs.getloc(), codecvtToUnicode));
     //***********************************************************
     ifs >> res;
+    
     std::cout << "Read " << ifs.gcount() << " characters\nContent:" << res << "\n";
     return res;
 }
@@ -40,7 +43,7 @@ std::wstring GetWString(const char* fileName)
 
 
 //手动分配
-char* GetChars(char* fileName) {
+char* GetChars(const char* fileName) {
     //打开文件（输入|文件指针置于末尾）
     std::ifstream ifs(fileName,
         std::ifstream::in  | std::ifstream::ate
@@ -68,7 +71,7 @@ char* GetChars(char* fileName) {
 
 //vector
 #include <vector>
-char* GetCharsV(char* fileName) {
+char* GetCharsV(const char* fileName) {
     //打开文件（输入|文件指针置于末尾）
     std::ifstream ifs(fileName,
         std::ifstream::in | std::ifstream::ate
@@ -88,6 +91,7 @@ char* GetCharsV(char* fileName) {
     //读取到vector
     ifs.read(vec.data(), static_cast<size_t>(size));
     std::cout << "Read " << ifs.gcount() << " characters\nContent:" << vec.data() << "\n";
+    //std::cout << "Read " << vec.size() << " characters\nContent:" << vec.data() << "\n";
 
     ifs.close();
     //释放或者返回字符串

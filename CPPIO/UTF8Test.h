@@ -12,7 +12,7 @@
 
 
 const std::wstring s2ws(const std::string& s) {
-    std::locale old_loc = std::locale::global(std::locale(""));
+    
 
     const char* src_str = s.c_str();
     const size_t buffer_size = s.size() + 1;
@@ -22,6 +22,8 @@ const std::wstring s2ws(const std::string& s) {
 
     std::wstring result = dst_wstr;
     delete[] dst_wstr;
+
+    std::locale old_loc = std::locale::global(std::locale(""));
     std::locale::global(old_loc);
     return result;
 }

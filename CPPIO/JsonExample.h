@@ -147,7 +147,7 @@ void ReadJSON() {
 
 void ReadWJSON() {
     //1.从文件中读取数据，将字符串转换成`rapidjson::Document`
-    const std::string fileName = "./json/Riven.json";
+    const char* fileName = "./json/Riven.json";
     WDocument doc = GetWDocument(fileName);
 
     if (!doc.IsObject()) {
@@ -155,15 +155,32 @@ void ReadWJSON() {
         return;
     }
 
-    ////2.从`rapidjson::Document`获取变量
-    ////拷贝到变量中使用
+    //2.从`rapidjson::Document`获取变量
+    //拷贝到变量中使用
     //std::string id = doc["id"].GetString();
     //std::cout << "id:" << id << " characters size:" << id.size() << " id[0]:" << id[0] << "\n";
-
-    ////获取变量
     //std::cout << "key:" << doc["key"].GetString() << "\n";
 
-    //std::string name = doc["name"].GetString();
+    std::wstring name = doc[L"name"].GetString();
+    //const char* chars = name.c_str();
+
+    //const size_t buffer_size = name.size() + 1;
+    //std::cout << buffer_size << "\n";
+
+    //wchar_t* dst_wstr = new wchar_t[buffer_size];
+    //wmemset(dst_wstr, 0, buffer_size);
+    //mbstowcs(dst_wstr, chars, buffer_size);
+
+    //std::wstring result = dst_wstr;
+    //delete[] dst_wstr;
+
+    //wchar_t ws[100];
+    //swprintf(ws, 100, L"%hs", chars);
+
+    //std::wcout << ws << "\n";
+    std::wcout << name << "\n";
+
+
     //std::cout << "name:" << name << " characters size:" << name.size() << " key[0]:" << name[0] << "\n";
 
     //std::cout << "title:" << doc["title"].GetString() << "\n";
