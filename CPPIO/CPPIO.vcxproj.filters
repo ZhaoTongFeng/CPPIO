@@ -78,9 +78,4 @@
       <Filter>头文件\Json</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="H:\DaSiShang\Enterprise Network Management\lab\Lab1\1710241909_Lab1.docx">
-      <Filter>头文件\Base</Filter>
-    </None>
-  </ItemGroup>
 </Project>

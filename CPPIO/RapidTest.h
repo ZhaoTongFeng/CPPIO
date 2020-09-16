@@ -227,3 +227,52 @@ void PartOne() {
 
 
 
+#include "rapidjson/filereadstream.h"
+
+#include "rapidjson/encodedstream.h"
+//转码
+//http://rapidjson.org/zh-cn/md_doc_encoding_8zh-cn.html
+#include "rapidjson/encodings.h"
+#include "rapidjson/stringbuffer.h"
+#include <cstdio>
+#pragma warning(disable:4996)
+void FileStream() {
+    //使用RAPIDJSON的字符串读取大文件
+    //FILE* fp = fopen(fileName, "rb");
+    //char readBuffer[65536];
+    //rapidjson::FileReadStream is(fp, readBuffer, sizeof(readBuffer));
+    //rapidjson::EncodedInputStream<rapidjson::UTF8<>, rapidjson::FileReadStream> eis(is);
+    //doc.ParseStream<0,rapidjson::UTF8<> >(eis);
+}
+
+void Transcode() {
+    //完全没有任何问题，直接出来就是wchar_t，但是转换成了UTF16编码
+    //typedef rapidjson::GenericDocument<rapidjson::UTF16<> > WDocument;
+    //typedef rapidjson::GenericValue<rapidjson::UTF16<> > WValue;
+    //std::ifstream file(fileName, std::ifstream::ate);
+    //if (!file) {
+    //    std::cout << "Open File Faild";
+    //    return doc;
+    //}
+    //std::ifstream::pos_type size = file.tellg();
+    //file.seekg(0, std::ifstream::beg);
+    //std::vector<char> buffer(static_cast<size_t>(size) + 1);
+    //file.read(buffer.data(), size);
+    //file.close();
+    ////转码
+    //char* s = buffer.data();
+    //rapidjson::StringStream source(s);
+    //rapidjson::GenericStringBuffer<rapidjson::UTF16<>> target;
+    //bool hasError = false;
+    //while (source.Peek() != '\0')
+    //    if (!rapidjson::Transcoder<rapidjson::UTF8<>, rapidjson::UTF16<> >::Transcode(source, target)) {
+    //        hasError = true;
+    //        break;
+    //    }
+
+    //if (!hasError) {
+    //    const wchar_t* t = target.GetString();
+    //    doc.Parse(t);
+    //}
+    //return doc;
+}

@@ -2,107 +2,156 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
+#include <codecvt>//用于转码和解码
 
 
-std::string GetString(const char* fileName) {
-    std::string res = "";
-    std::ifstream ifs(fileName);
-    if (!ifs) {
-        std::cout << fileName << "文件打开失败\n";
+
+//读文本文件用String，二进制情况使用GetXXXV
+class MFileReader {
+public:
+    //***************************************************************
+    //用窄字符保存                                                  *
+    //***************************************************************
+    //916,1007
+    static char* GetChars(const char* fileName) {
+        char* buffer = nullptr;
+        //打开文件（输入|文件指针置于末尾）
+        std::ifstream ifs(fileName,
+            std::ifstream::in | std::ifstream::ate
+        );
+        if (!ifs) {
+            std::cout << fileName << "文件打开失败\n";
+            return buffer;
+        }
+        //获取文件大小
+        size_t size = static_cast<size_t>(ifs.tellg());
+        //文件指针重置到首位
+        ifs.seekg(0, ifs.beg);
+
+        //Array buffer
+        buffer = new char[size + 1];
+        ifs.read(buffer, size);
+        buffer[size] = 0;
+        ifs.close();
+        
+        std::cout << "gcount:" << ifs.gcount() << "\n";
+        std::cout << "arr.len: " << strlen(buffer) << " \nContent:" << buffer << "\n";
+        return buffer;
+    }
+    //916,1008
+    static char* GetCharsV(const char* fileName) {
+        std::ifstream ifs(fileName,
+            std::ifstream::in | std::ifstream::ate
+        );
+        if (!ifs) {
+            std::cout << fileName << "文件打开失败\n";
+            return NULL;
+        }
+        size_t size = static_cast<size_t>(ifs.tellg());
+        ifs.seekg(0, ifs.beg);
+        //申请vector缓冲区
+        std::vector<char> vec(size+1);
+        ifs.read(vec.data(), size);
+        ifs.close();
+
+        //释放或者返回字符串
+        //不能直接将vec的数据拷贝给char*，因为在函数作用域结束之后，没有用new创建的vector里的char都会跟着vector释放。
+        //res = vec.data();
+        char* res = new char[vec.size()];
+        strncpy_s(res, vec.size(), vec.data(), vec.size());
+
+        std::cout << "gcount:" << ifs.gcount() << "\n";
+        std::cout << "vec.size: " << vec.size() << " \nContent:" << vec.data() << "\n";
         return res;
     }
-    //std::codecvt_utf8<char, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < char, 0x10ffff, std::consume_header >;
-    //ifs.imbue(std::locale(ifs.getloc(), codecvtToUnicode));
-    //***********************************************************
-    ifs >> res;
-    
-    std::cout << "Read " << ifs.gcount() << " characters\nContent:" << res << "\n";
-    return res;
-}
+    //operator >> 适用于读取文本数据
+    //使用这种方法打开UTF8的文件，不仅会出现乱码的错误，String.size()的返回值返回的也不是字数，而是文件的空间大小
+    static std::string GetString(const char* fileName) {
+        std::string res = "";
+        std::ifstream ifs(fileName);
+        if (!ifs) {
+            std::cout << fileName << "文件打开失败\n";
+            return res;
+        }
+        ifs >> res;
+        ifs.close();
 
-//读取UTF-8
-#include <codecvt>
-std::wstring GetWString(const char* fileName)
-{
-    std::wstring wst = L"";
-    std::wifstream wif(fileName);
-    if (!wif) {
-        std::cout << fileName << "文件打开失败\n";
-        return wst;
+        std::cout << "gcount:" << ifs.gcount() << "\n";
+        std::cout << "str.size:" << res.size() << " \nContent:" << res << "\n";
+        return res;
     }
-    //***********************************************************
-    //wifstream的解码格式
-    std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
-    wif.imbue(std::locale(wif.getloc(), codecvtToUnicode));
-    wif >> wst;
-    //设置wcout的解码格式
-    std::wcout.imbue(std::locale("chs"));
-    std::wcout << L"Read " << wst.size() << L" characters\nContent:" << wst << L"\n";
-    return wst;
-}
+    //***************************************************************
+    //用宽字符保存                                                  *
+    //***************************************************************
+    //296，339
+    static wchar_t* GetWChars(const char* fileName) {
+        wchar_t* res = nullptr;
+        std::wifstream ifs(fileName,
+            std::wifstream::in | std::wifstream::ate
+        );
+        if (!ifs) {
+            std::cout << fileName << "文件打开失败\n";
+            return res;
+        }
+        //需要设置解码方式
+        std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
+        ifs.imbue(std::locale(ifs.getloc(), codecvtToUnicode));
 
+        size_t size = static_cast<size_t>(ifs.tellg());
+        ifs.seekg(0, ifs.beg);
 
-//手动分配
-char* GetChars(const char* fileName) {
-    //打开文件（输入|文件指针置于末尾）
-    std::ifstream ifs(fileName,
-        std::ifstream::in  | std::ifstream::ate
-    );
-    if (!ifs) {
-        std::cout << fileName << "文件打开失败\n"; 
-        return NULL;
+        res = new wchar_t[size];
+        ifs.read(res, size);
+        ifs.close();
+
+        std::wcout << "gcount:" << ifs.gcount() << "\n";
+        std::wcout << "arr.len: " << wcslen(res) << " \nContent:" << res << "\n";
+        return res;
     }
-    std::ifstream::pos_type size = ifs.tellg();
-    ifs.seekg(0, ifs.beg);
-    //***********************************************************
-    //申请数组缓冲区
-    char* buffer = new char[static_cast<size_t>(size)+1];
-    //读取到数组
-    ifs.read(buffer, static_cast<size_t>(size));
-    buffer[static_cast<size_t>(size)] = 0;
-    std::cout << "Read " << ifs.gcount() << " characters\nContent:" << buffer << "\n";
-    ifs.close();
-    //释放或者返回字符串
-    //delete[] buffer;
-    //buffer = nullptr;
-    return buffer;
-}
+    //296，325
+    //文件大小是325，这种方法能正确分配大小。
+    static wchar_t* GetWCharsV(const char* fileName) {
+        std::wifstream ifs(fileName,
+            std::wifstream::in | std::wifstream::ate
+        );
+        if (!ifs) {
+            std::cout << fileName << "文件打开失败\n";
+            return NULL;
+        }
+        std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
+        ifs.imbue(std::locale(ifs.getloc(), codecvtToUnicode));
+        size_t size = static_cast<size_t>(ifs.tellg());
+        ifs.seekg(0, ifs.beg);
+        //Vector buffer
+        std::vector<wchar_t> vec(size);
+        ifs.read(vec.data(), size);
+        ifs.close();
 
-
-//vector
-#include <vector>
-char* GetCharsV(const char* fileName) {
-    //打开文件（输入|文件指针置于末尾）
-    std::ifstream ifs(fileName,
-        std::ifstream::in | std::ifstream::ate
-    );
-    if (!ifs) {
-        std::cout << fileName << "文件打开失败\n";
-        return NULL;
+        //std::wcout << "gcount:" << ifs.gcount() << "\n";
+        //std::wcout << "vec.size: " << vec.size() << " \nContent:" << vec.data() << "\n";
+        
+        //vector to wchar_t*
+        wchar_t* res = new wchar_t[vec.size()];
+        wcscpy_s(res, vec.size(), vec.data());
+        return res;
     }
-    //获取文件大小
-    std::ifstream::pos_type size = ifs.tellg();
-    //文件指针重置到首位
-    ifs.seekg(0, ifs.beg);
-    //***********************************************************
-    //申请vector缓冲区
-    std::vector<char> vec(static_cast<size_t>(size) + 1);
 
-    //读取到vector
-    ifs.read(vec.data(), static_cast<size_t>(size));
-    std::cout << "Read " << ifs.gcount() << " characters\nContent:" << vec.data() << "\n";
-    //std::cout << "Read " << vec.size() << " characters\nContent:" << vec.data() << "\n";
+    //如果是读取文本文件，使用这种方式更方便，而且wstring.size()返回的就是字符串的个数
+    static std::wstring GetWString(const char* fileName) {
+        std::wstring res = L"";
+        std::wifstream ifs(fileName);
+        if (!ifs) {
+            std::cout << fileName << "文件打开失败\n";
+            return res;
+        }
+        std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
+        ifs.imbue(std::locale(ifs.getloc(), codecvtToUnicode));
+        ifs >> res;
+        ifs.close();
 
-    ifs.close();
-    //释放或者返回字符串
-    //不能直接将vec的数据拷贝给char*，因为在函数作用域结束之后，vec里的char都会跟着vec释放。
-    //res = vec.data();
-    char* res = new char[vec.size() + 1];
-    strncpy_s(res, vec.size(), vec.data(), vec.size());
-    res[vec.size()] = 0;
-    return res;
-}
-
-
-
-
+        std::wcout << L"gcount:" << ifs.gcount() << L"\n";
+        std::wcout << L"wstr.size:" << res.size() << L" \nContent:" << res << L"\n";
+        return res;
+    }
+};

@@ -21,6 +21,11 @@ void BinaryIO() {
     cls.a = 10;
     cls.b = 2.1f;
     cls.c = 3.2;
+
+
+
+
+
     //cls.str = "qwe";
     std::fstream outfile(fileName, std::fstream::out | std::fstream::binary);
     outfile.write(reinterpret_cast<char*>(&cls), sizeof(cls));

@@ -4,35 +4,36 @@
 
 void ReadTest() {
     char fileName[] = "./file/read.txt";
-    GetString(fileName);
-    GetChars(fileName);
-    GetCharsV(fileName);
-    GetWString(fileName);
+
+    MFileReader::GetChars(fileName);
+    
+    MFileReader::GetCharsV(fileName);
+    MFileReader::GetWChars(fileName);
+    MFileReader::GetWCharsV(fileName);
+
+    MFileReader::GetString(fileName);
+    MFileReader::GetWString(fileName);
+   
 }
 
 void WriteTest() {
-    char truncFileName[] = "./file/truncFile.txt";
-    char appFileName[] = "./file/appFile.txt";
+    const char truncFileName[] = "./file/truncFile.txt";
+    const char appFileName[] = "./file/appFile.txt";
+    const char utf8File[] = "./file/utf8.txt";
+
     char content[] = "abcd1234∂Ú»¯Àπ∂ÚÀ_Àπß°ß‰ß‚ß‡ß‹ß„";
+    wchar_t wcontent[] = L"abcd1234∂Ú»¯Àπ∂ÚÀ_Àπß°ß‰ß‚ß‡ß‹ß„";
+
 
     for (int i = 0; i < 2; i++) {
         OverwriteContent(truncFileName, content);
         AppendContent(appFileName, content);
     }
-
-    char utf8File[] = "./file/utf8.txt";
-    wchar_t text[] = L"abcd1234∂Ú»¯Àπ∂ÚÀ_Àπß°ß‰ß‚ß‡ß‹ß„";
-    OverwriteUTF8(utf8File, text);
+    OverwriteUTF8(utf8File, wcontent);
 
 
-    std::wstring res = GetWString(utf8File);
-    if (!res.empty()) {
-
-        std::wcout << L"◊÷∑˚£∫" << res << "\n";
-    }
-    else {
-        std::cout << "NULL";
-    }
+    wchar_t* res = MFileReader::GetWChars(utf8File);
+    std::wcout << L"UTF8◊÷∑˚£∫" << res << "\n";
 }
 
 
