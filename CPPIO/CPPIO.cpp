@@ -12,11 +12,14 @@ int main()
     //WriteTest();
     
     //ReadJSON();
-    ReadWJSON();
-    ReadBlocks();
+    //ReadWJSON();
+    //ReadBlocks();
 
     //WriteJSON();
     //BinaryIO();
 
+    //TransToBinary();
+    TestBlocks();
+    //BinaryArray();
     return 0;
 }

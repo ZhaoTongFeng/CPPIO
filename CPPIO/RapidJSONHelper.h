@@ -2,7 +2,8 @@
 #include <string>
 
 #include "rapidjson/document.h"
-
+#include "ReadJson.h"
+#include "WriteJson.h"
 class RapidJSONHelper {
 public:
     static bool GetFloat(const rapidjson::Value& obj, const char* key, float& outValue) {

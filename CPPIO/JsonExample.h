@@ -1,8 +1,7 @@
 #pragma once
 
 #include "RapidJSONHelper.h"
-#include "ReadJson.h"
-#include "WriteJson.h"
+
 
 //C++ 编译器会在初始化数组时，自动把 ‘\0’ 放在字符串的末尾。所以也可以利用下面的形式进行初始化char greeting[] = "Hello";
 //C++的char字符串仍然是以'\0'结尾的，而string字符串对象不是以'\0'结尾的。
@@ -13,7 +12,7 @@
 //俄罗斯方块中从文件读取出方块形状
 void ReadBlocks() {
 
-    const static char* fileName = "./json/Blocks.json";
+    const char* fileName = "./json/Blocks.json";
     rapidjson::Document doc = GetDocument(fileName);
     if (!doc.IsObject()) {
         std::cout << "Faild to valid JSON";
@@ -103,7 +102,6 @@ void ReadBlocks() {
 
     delete[] blockNum;
     delete[] sumNum;
-
 }
 
 //读取英雄联盟英雄数据

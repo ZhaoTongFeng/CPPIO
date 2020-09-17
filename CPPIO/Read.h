@@ -61,8 +61,8 @@ public:
         char* res = new char[vec.size()];
         strncpy_s(res, vec.size(), vec.data(), vec.size());
 
-        std::cout << "gcount:" << ifs.gcount() << "\n";
-        std::cout << "vec.size: " << vec.size() << " \nContent:" << vec.data() << "\n";
+        //std::cout << "gcount:" << ifs.gcount() << "\n";
+        //std::cout << "vec.size: " << vec.size() << " \nContent:" << vec.data() << "\n";
         return res;
     }
     //operator >> 适用于读取文本数据
