@@ -37,23 +37,79 @@ void BinaryIO() {
     std::cout << cls2.a << std::endl << cls2.b << std::endl << cls2.c << std::endl << cls2.chars;
 }
 
-void BinaryArray() {
-    std::string fileName = "./binary/array.bin";
+//把某一位设置成0或者1
+void BitSetMask(int& value,int index,bool isT) {
+    if (index < 0 || index >= 32) { return; }
+    value = isT ? value | (1 << index) : value & (~(1 << index));
+    return;
+}
 
-    int a[] = { 1,2,3,4,5 };
+//判断某一位是否为1
+void BitMask(int value, int index,bool& isT) {
+    if (index < 0 || index >= 32) { return; }
+    isT = ((value >> index) & 1) == 1;
+    return;
+}
+
+
+
+void BinaryArray() {
+    //std::string fileName = "./binary/array.bin";
+
+    //int a[] = { 1,2,3,4,5 };
+
+    //std::fstream outfile(fileName, std::fstream::out | std::fstream::binary);
+    //outfile.write(reinterpret_cast<char*>(a), sizeof(a));
+    //outfile.close();
+    //std::cout << sizeof(a)<<"\n";
+
+    //int b[5];
+    //std::fstream infile(fileName, std::fstream::in | std::fstream::binary);
+    //infile.read(reinterpret_cast<char*>(b), sizeof(a));
+    //infile.close();
+    //for (int i = 0; i < 5; i++) {
+    //    std::cout << b[i];
+    //}
+
+    //std::string fileName = "./binary/array-bool.bin";
+
+    //bool a[] = { 1,0,1,1,0,1,0,0 };
+
+    //std::fstream outfile(fileName, std::fstream::out | std::fstream::binary);
+    //outfile.write(reinterpret_cast<char*>(a), sizeof(a));
+    //outfile.close();
+    //std::cout << sizeof(a) << "\n";
+
+    //bool b[8];
+    //std::fstream infile(fileName, std::fstream::in | std::fstream::binary);
+    //infile.read(reinterpret_cast<char*>(b), sizeof(a));
+    //infile.close();
+    //for (int i = 0; i < 8; i++) {
+    //    std::cout << b[i];
+    //}
+
+    std::string fileName = "./binary/array-bool.bin";
+
+    int a = 0;
+    BitSetMask(a, 9, 1);
+    BitSetMask(a, 8, 1);
 
     std::fstream outfile(fileName, std::fstream::out | std::fstream::binary);
-    outfile.write(reinterpret_cast<char*>(a), sizeof(a));
+    outfile.write(reinterpret_cast<char*>(&a), sizeof(a));
     outfile.close();
-    std::cout << sizeof(a)<<"\n";
+    std::cout << sizeof(a) << "\n";
 
-    int b[5];
+    int b;
     std::fstream infile(fileName, std::fstream::in | std::fstream::binary);
-    infile.read(reinterpret_cast<char*>(b), sizeof(a));
+    infile.read(reinterpret_cast<char*>(&b), sizeof(a));
     infile.close();
-    for (int i = 0; i < 5; i++) {
-        std::cout << b[i];
-    }
+    std::cout << b<<"\n";
+
+    bool x1;
+    BitMask(b, 9, x1);
+    std::cout << x1<<"\n";
+    BitMask(b, 8, x1);
+    std::cout << x1<<"\n";
 }
 
 #include "Read.h"
@@ -135,9 +191,7 @@ void TestBlocks() {
     }
 
     //初始化三维数组[13][4][4]
-
     bool*** blocks = new bool** [count];
-
     for (int i = 0; i < count; i++) {
         blocks[i] = new bool* [4];
         for (int j = 0; j < 4; j++) {
@@ -147,7 +201,7 @@ void TestBlocks() {
             }
         }
     }
-
+    
 
     //将文件中的数组读取到三维数组
     int n = 0;
@@ -162,37 +216,88 @@ void TestBlocks() {
             n++;
         }
     }
+
     delete[] blockNum;
     delete[] sumNum;
- 
+    //for (int i = 0; i < count; i++) {
+    //   for (int j = 0; j < 4; j++) {
+    //       for (int k = 0; k < 4; k++) {
+    //           std::cout << blocks[i][j][k];
+    //       }
+    //       std::cout << std::endl;
+    //   }
+    //   std::cout << std::endl;
+    //}
 
+    //存储为二进制
+    //将208个bit保存到7个32bit的int变量中(224的空间，最后剩下16个空bit);
     std::string outFileName = "./binary/Blocks.bin";
     int size = count * 4 * 4;
+    int arrSize = static_cast<size_t>(ceil((float)size / 32.0f));//ceil向上取整
+    int* arr = new int[arrSize];
+    for (int i = 0; i < arrSize; i++) {
+        arr[i] = 0;
+    }
+    
+    int bitPtr = 0;
+    for (int i = 0; i < count; i++) {
+       for (int j = 0; j < 4; j++) {
+           for (int k = 0; k < 4; k++) {
+               BitSetMask(arr[static_cast<int>(floor(bitPtr / 32))], bitPtr % 32, blocks[i][j][k]);               
+               //std::cout << "index:" << static_cast<int>(floor(bitPtr / 32)) << "\n";
+               //std::cout << "bitptr:" << bitPtr % 32 << "\n";
+               //std::cout << "blocks[i][j][k]:" << blocks[i][j][k] << "\n";
+               bitPtr++;
+           }
+       }
+    }
+    
+
     std::fstream outfile(outFileName, std::fstream::out | std::fstream::binary);
-    outfile.write(reinterpret_cast<char*>(blocks), size);
+    outfile.write(reinterpret_cast<char*>(arr), sizeof(int)* arrSize);
+    std::cout << sizeof(int) * arrSize << "\n";
     outfile.close();
 
-    int* newblocks = new int[static_cast<size_t>(size / 4)];
-    
+    //还原成数组
+    //先接受7个int型变量
+    int* newarr = new int[arrSize];
     std::fstream infile(outFileName, std::fstream::in | std::fstream::binary);
-
-    infile.read(reinterpret_cast<char*>(newblocks), size);
+    infile.read(reinterpret_cast<char*>(newarr), sizeof(int)* arrSize);
     infile.close();
 
-    std::cout << size<< "\n";
-    //查看现在三维数组中的数据
-    for (int i = 0; i < size; i++) {
-        std::cout << newblocks[i]<<" ";
+    //初始化三维数组[13][4][4]
+    bool*** newblocks = new bool** [count];
+    for (int i = 0; i < count; i++) {
+        newblocks[i] = new bool* [4];
+        for (int j = 0; j < 4; j++) {
+            newblocks[i][j] = new bool[4];
+            for (int k = 0; k < 4; k++) {
+                newblocks[i][j][k] = 0;
+            }
+        }
     }
-    //for (int i = 0; i < count; i++) {
-    //    for (int j = 0; j < 4; j++) {
-    //        for (int k = 0; k < 4; k++) {
-    //            std::cout << blocks[i][j][k];
-    //        }
-    //        std::cout << std::endl;
-    //    }
-    //    std::cout << std::endl;
-    //}
+
+    //13*16=208
+    //根据已知的尺寸进行遍历设置，这些数据需要进行记录，以便读取的时候使用
+    bool isT;
+    int col = 0;
+    for (int i = 0; i < size; i++) {
+        BitMask(newarr[static_cast<int>(floor((float)i/32.0f))], i%32, isT);
+        int x = static_cast<int>(floor((float)i / 16.0f));
+        int y = (int)(((float)i/4.0f))%4;
+        int z = i % 4;
+        newblocks[x][y][z] = isT;
+    }
+
+    for (int i = 0; i < count; i++) {
+       for (int j = 0; j < 4; j++) {
+           for (int k = 0; k < 4; k++) {
+               std::cout << newblocks[i][j][k];
+           }
+           std::cout << std::endl;
+       }
+       std::cout << std::endl;
+    }
 }
 
 
