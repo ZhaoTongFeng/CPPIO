@@ -243,11 +243,7 @@ void TestBlocks() {
     for (int i = 0; i < count; i++) {
        for (int j = 0; j < 4; j++) {
            for (int k = 0; k < 4; k++) {
-               BitSetMask(arr[static_cast<int>(floor(bitPtr / 32))], bitPtr % 32, blocks[i][j][k]);               
-               //std::cout << "index:" << static_cast<int>(floor(bitPtr / 32)) << "\n";
-               //std::cout << "bitptr:" << bitPtr % 32 << "\n";
-               //std::cout << "blocks[i][j][k]:" << blocks[i][j][k] << "\n";
-               bitPtr++;
+               BitSetMask(arr[static_cast<int>(floor(bitPtr / 32))], (bitPtr++) % 32, blocks[i][j][k]);               
            }
        }
     }
@@ -279,6 +275,7 @@ void TestBlocks() {
 
     //13*16=208
     //根据已知的尺寸进行遍历设置，这些数据需要进行记录，以便读取的时候使用
+    //这里其实就用了3个数据，count=13，rol=4，row=4，其实可以直接保存在之前剩余的16个bit里面，然后这里读出来
     bool isT;
     int col = 0;
     for (int i = 0; i < size; i++) {
