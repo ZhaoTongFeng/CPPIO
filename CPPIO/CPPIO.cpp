@@ -18,8 +18,9 @@ int main()
     //WriteJSON();
     //BinaryIO();
 
-    //TransToBinary();
-    TestBlocks();
+
+
     //BinaryArray();
+    SaveLoadTest();
     return 0;
 }
