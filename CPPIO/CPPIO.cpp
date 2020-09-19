@@ -8,7 +8,7 @@
 int main()
 {
     setlocale(LC_ALL, "");
-    //ReadTest();
+    ReadTest();
     //WriteTest();
     
     //ReadJSON();
@@ -19,7 +19,7 @@ int main()
     //BinaryIO();
 
     //TransToBinary();
-    TestBlocks();
-    //BinaryArray();
+    //TestBlocks();
+    BinaryArray();
     return 0;
 }

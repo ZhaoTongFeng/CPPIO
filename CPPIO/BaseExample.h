@@ -3,15 +3,26 @@
 #include "Read.h"
 
 void ReadTest() {
-    char fileName[] = "./file/read.txt";
-
+    const char* fileName = "./file/read.txt";
+    
+    std::cout << "MFileReader::GetChars:\n";
     MFileReader::GetChars(fileName);
     
+    std::cout << "\nMFileReader::GetCharsV:\n";
     MFileReader::GetCharsV(fileName);
-    MFileReader::GetWChars(fileName);
-    MFileReader::GetWCharsV(fileName);
-
+    
+    std::cout << "\nMFileReader::GetString:\n";
     MFileReader::GetString(fileName);
+    
+    std::cout << "**************************************";
+
+    std::cout << "\nMFileReader::GetWChars:\n";
+    MFileReader::GetWChars(fileName);
+
+    std::cout << "\nMFileReader::GetWCharsV:\n";
+    MFileReader::GetWCharsV(fileName);
+    
+    std::cout << "\nMFileReader::GetWString:\n";
     MFileReader::GetWString(fileName);
    
 }

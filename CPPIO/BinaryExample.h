@@ -2,7 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "BinaryIO.h"
 
+//1.Class或者Struct读写二进制
 class MyClass
 {
 public:
@@ -13,9 +15,6 @@ public:
     char chars[512]{ 'q','w','e','r','t' };
     //std::string str;
 };
-
-
-//Class或者Struct读写二进制
 void BinaryIO() {
     std::string fileName = "./binary/outfile.bin";
     //Write
@@ -37,19 +36,7 @@ void BinaryIO() {
     std::cout << cls2.a << std::endl << cls2.b << std::endl << cls2.c << std::endl << cls2.chars;
 }
 
-//把某一位设置成0或者1
-void BitSetMask(int& value,int index,bool isT) {
-    if (index < 0 || index >= 32) { return; }
-    value = isT ? value | (1 << index) : value & (~(1 << index));
-    return;
-}
 
-//判断某一位是否为1
-void BitMask(int value, int index,bool& isT) {
-    if (index < 0 || index >= 32) { return; }
-    isT = ((value >> index) & 1) == 1;
-    return;
-}
 
 
 

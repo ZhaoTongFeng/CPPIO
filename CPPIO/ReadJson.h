@@ -13,7 +13,7 @@
 
 rapidjson::Document GetDocument(const char* fileName) {
     rapidjson::Document doc;    
-    doc.Parse(MFileReader::GetCharsV(fileName));
+    doc.Parse(MFileReader::GetChars(fileName));
     return doc;
 }
 
@@ -21,6 +21,7 @@ rapidjson::Document GetDocument(const char* fileName) {
 
 typedef rapidjson::GenericDocument<rapidjson::UTF8<wchar_t> > WDocument;
 typedef rapidjson::GenericValue<rapidjson::UTF8<wchar_t> > WValue;
+
 //读取UTF8编码的JSON文件数据到Document
 WDocument GetWDocument(const char* fileName) {
     WDocument doc;

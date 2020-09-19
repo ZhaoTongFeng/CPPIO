@@ -18,7 +18,7 @@ public:
         char* buffer = nullptr;
         //打开文件（输入|文件指针置于末尾）
         std::ifstream ifs(fileName,
-            std::ifstream::in | std::ifstream::ate
+            std::ifstream::in | std::ifstream::ate | std::ifstream::binary
         );
         if (!ifs) {
             std::cout << fileName << "文件打开失败\n";
@@ -61,8 +61,8 @@ public:
         char* res = new char[vec.size()];
         strncpy_s(res, vec.size(), vec.data(), vec.size());
 
-        //std::cout << "gcount:" << ifs.gcount() << "\n";
-        //std::cout << "vec.size: " << vec.size() << " \nContent:" << vec.data() << "\n";
+        std::cout << "gcount:" << ifs.gcount() << "\n";
+        std::cout << "vec.size: " << vec.size() << " \nContent:" << vec.data() << "\n";
         return res;
     }
     //operator >> 适用于读取文本数据
@@ -74,7 +74,10 @@ public:
             std::cout << fileName << "文件打开失败\n";
             return res;
         }
-        ifs >> res;
+        while (ifs) {
+            ifs >> res;
+        }
+        
         ifs.close();
 
         std::cout << "gcount:" << ifs.gcount() << "\n";
@@ -88,7 +91,7 @@ public:
     static wchar_t* GetWChars(const char* fileName) {
         wchar_t* res = nullptr;
         std::wifstream ifs(fileName,
-            std::wifstream::in | std::wifstream::ate
+            std::wifstream::in | std::wifstream::ate | std::ifstream::binary
         );
         if (!ifs) {
             std::cout << fileName << "文件打开失败\n";
@@ -121,19 +124,20 @@ public:
         }
         std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
         ifs.imbue(std::locale(ifs.getloc(), codecvtToUnicode));
+        
         size_t size = static_cast<size_t>(ifs.tellg());
         ifs.seekg(0, ifs.beg);
-        //Vector buffer
+
         std::vector<wchar_t> vec(size);
         ifs.read(vec.data(), size);
         ifs.close();
 
-        //std::wcout << "gcount:" << ifs.gcount() << "\n";
-        //std::wcout << "vec.size: " << vec.size() << " \nContent:" << vec.data() << "\n";
-        
         //vector to wchar_t*
         wchar_t* res = new wchar_t[vec.size()];
         wcscpy_s(res, vec.size(), vec.data());
+
+        std::wcout << "gcount:" << ifs.gcount() << "\n";
+        std::wcout << "vec.size: " << vec.size() << " \nContent:" << vec.data() << "\n";
         return res;
     }
 
@@ -147,7 +151,12 @@ public:
         }
         std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>* codecvtToUnicode = new std::codecvt_utf8 < wchar_t, 0x10ffff, std::consume_header >;
         ifs.imbue(std::locale(ifs.getloc(), codecvtToUnicode));
-        ifs >> res;
+
+        while (ifs)
+        {
+            ifs >> res;
+        }
+        
         ifs.close();
 
         std::wcout << L"gcount:" << ifs.gcount() << L"\n";
