@@ -6,7 +6,7 @@
 #include <codecvt> //用于转码和解码
 using namespace std;
 
-namespace MBaseIO {
+namespace MBaseFileIO {
     //***************************************************************
     //Read                                                          *
     //***************************************************************

@@ -20,25 +20,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseIO.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="TestBase.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="TestJSON.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="JsonIO.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="RapidJSONHelper.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryIO.h">
+    <ClInclude Include="TestBinary.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="TestBinary.h">
+    <ClInclude Include="BaseFileIO.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BinFileIO.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonFileIO.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

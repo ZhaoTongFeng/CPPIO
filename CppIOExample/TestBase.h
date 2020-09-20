@@ -1,6 +1,6 @@
 #pragma once
-#include "BaseIO.h"
-using namespace MBaseIO;
+#include "BaseFileIO.h"
+using namespace MBaseFileIO;
 
 void BaseTest() {
     //文件
@@ -12,14 +12,14 @@ void BaseTest() {
     const char* content = "abcdefgh";
     const wchar_t* UTF8Content = L"abcd1234\n厄萨斯厄薩斯Атрокс";
 
-    //写入测试
+    //写入
     for (int i = 0; i < 2; i++) {
         OverWriteFile(truncFileName, content);
         AppendFile(appFileName, content);
     }
     OverWriteUTF8(writeUTF8FileName, UTF8Content);
 
-    //读取测试
+    //读取
     char* p1 = GetChars(truncFileName);
     char* p2 = GetCharsV(appFileName);
     wchar_t* p3 = GetWChars(writeUTF8FileName);
