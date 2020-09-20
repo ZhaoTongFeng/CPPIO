@@ -2,11 +2,10 @@
 #include <string>
 
 #include "rapidjson/document.h"
-#include "ReadJson.h"
-#include "WriteJson.h"
+
 class RapidJSONHelper {
 public:
-    static bool GetFloat(const rapidjson::Value& obj, const char* key, float& outValue) {
+    static int GetFloat(const rapidjson::Value& obj, const char* key, float& outValue) {
         auto iter = obj.FindMember(key);
         if (iter == obj.MemberEnd()) {
             return false;
@@ -18,7 +17,7 @@ public:
         outValue = property.GetFloat();
         return true;
     }
-    static bool GetInt(const rapidjson::Value& obj, const char* key, int& outValue) {
+    static int GetInt(const rapidjson::Value& obj, const char* key, int& outValue) {
         auto iter = obj.FindMember(key);
         if (iter == obj.MemberEnd()) {
             return false;
@@ -30,7 +29,7 @@ public:
         outValue = property.GetInt();
         return true;
     }
-    static bool GetString(const rapidjson::Value& obj, const char* key, std::string& outValue) {
+    static int GetString(const rapidjson::Value& obj, const char* key, string& outValue) {
         auto iter = obj.FindMember(key);
         if (iter == obj.MemberEnd()) {
             return false;
@@ -52,19 +51,19 @@ public:
         rapidjson::Value v(inValue);
         obj.AddMember(rapidjson::StringRef(key), v, alloc);
     }
-    static void AddString(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& obj, const char* key, const std::string& inValue) {
+    static void AddString(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& obj, const char* key, const string& inValue) {
         rapidjson::Value v;
         v.SetString(inValue.c_str(), static_cast<rapidjson::SizeType>(inValue.length()), alloc);
         obj.AddMember(rapidjson::StringRef(key), v, alloc);
     }
 
-    static bool Get(const rapidjson::Value& obj, const char* key, float& outValue) {
+    static int Get(const rapidjson::Value& obj, const char* key, float& outValue) {
         return GetFloat(obj, key, outValue);
     }
-    static bool Get(const rapidjson::Value& obj, const char* key, int& outValue) {
+    static int Get(const rapidjson::Value& obj, const char* key, int& outValue) {
         return GetInt(obj, key, outValue);
     }
-    static bool Get(const rapidjson::Value& obj, const char* key, std::string& outValue) {
+    static int Get(const rapidjson::Value& obj, const char* key, string& outValue) {
         return GetString(obj, key, outValue);
     }
     static void Add(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& obj, const char* key, float inValue) {
@@ -73,7 +72,7 @@ public:
     static void Add(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& obj, const char* key, int inValue) {
         AddInt(alloc, obj, key, inValue);
     }
-    static void Add(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& obj, const char* key, const std::string& inValue) {
+    static void Add(rapidjson::Document::AllocatorType& alloc, rapidjson::Value& obj, const char* key, const string& inValue) {
         AddString(alloc, obj, key, inValue);
     }
 };
