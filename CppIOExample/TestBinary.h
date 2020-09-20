@@ -98,7 +98,7 @@ void BinaryArray() {
 
 
 
-//¹Ì¶¨·½¿é³ß´çBLOCK_LEN * BLOCK_LEN
+//·½¿é³ß´ç:BLOCK_LEN * BLOCK_LEN
 const int BLOCK_LEN = 4;
 
 class TetrisLevel {
@@ -123,6 +123,7 @@ public:
             SaveToBin();
         }
     }
+
     ~TetrisLevel() {
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < BLOCK_LEN; j++) {

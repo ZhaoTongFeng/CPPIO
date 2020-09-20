@@ -14,10 +14,10 @@ void BaseTest() {
 
     //–¥»Î≤‚ ‘
     for (int i = 0; i < 2; i++) {
-        OverwriteContent(truncFileName, content);
-        AppendContent(appFileName, content);
+        OverWriteFile(truncFileName, content);
+        AppendFile(appFileName, content);
     }
-    OverwriteUTF8(writeUTF8FileName, UTF8Content);
+    OverWriteUTF8(writeUTF8FileName, UTF8Content);
 
     //∂¡»°≤‚ ‘
     char* p1 = GetChars(truncFileName);
@@ -30,8 +30,13 @@ void BaseTest() {
     char* p6 = GetCharsV(writeUTF8FileName);
 
     // Õ∑≈ø’º‰
-    delete[] p2;
-    delete[] p4;
     delete[] p1;
+    delete[] p2;
+    
+    
     delete[] p3;
+    delete[] p4;
+
+    delete[] p5;
+    delete[] p6;
 }

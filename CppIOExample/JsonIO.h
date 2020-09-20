@@ -36,7 +36,7 @@ namespace MJsonIO {
         doc.Accept(writer);
         const char* output = buffer.GetString();
         //2.char*=>file
-        OverwriteContent(fileName, output);
+        OverWriteFile(fileName, output);
         return true;
     }
 
@@ -47,7 +47,7 @@ namespace MJsonIO {
         WPrettyWriter writer(buffer);
         doc.Accept(writer);
         const wchar_t* output = buffer.GetString();
-        OverwriteUTF8(fileName, output);
+        OverWriteUTF8(fileName, output);
         return true;
     }
 }

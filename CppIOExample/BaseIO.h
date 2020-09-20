@@ -3,28 +3,22 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include <codecvt>//用于转码和解码
+#include <codecvt> //用于转码和解码
 using namespace std;
-
-
-
-
 
 namespace MBaseIO {
     //***************************************************************
     //Read                                                          *
     //***************************************************************
-    static char* GetChars(const char* fileName) {
+    //获取窄字符串（以char*为缓冲）
+    char* GetChars(const char* fileName) {
         cout << "\nMBaseIO::GetChars:\n";
         char* buffer = nullptr;
         //打开文件（输入|文件指针置于末尾）
-        std::ifstream ifs(fileName,
-            std::ios::in | std::ios::ate
-        );
+        std::ifstream ifs(fileName,std::ios::in | std::ios::ate);
         if (!ifs) {
             cout << fileName << "文件打开失败\n";
-            
-            //return buffer;
+            return buffer;
         }
         //获取文件大小
         size_t size = static_cast<size_t>(ifs.tellg());
@@ -33,8 +27,8 @@ namespace MBaseIO {
 
         //Array buffer
         buffer = new char[size+1];
-        memset(buffer, 0, size + 1);
         ifs.read(buffer, size);
+        buffer[size] = 0;
         ifs.close();
 
         cout << "gcount:" << ifs.gcount() << "\t";
@@ -44,7 +38,8 @@ namespace MBaseIO {
         return buffer;
     }
 
-    static char* GetCharsV(const char* fileName) {
+    //获取窄字符串（以vector为缓冲）
+    char* GetCharsV(const char* fileName) {
         cout << "\nMBaseIO::GetCharsV:\n";
         char* res = nullptr;
         std::ifstream ifs(fileName,
@@ -61,26 +56,21 @@ namespace MBaseIO {
         ifs.read(vec.data(), size);
         ifs.close();
 
-
-        //释放或者返回字符串
         //不能直接将vec的数据拷贝给char*，因为在函数作用域结束之后，没有用new创建的vector里的char都会跟着vector释放。
         //res = vec.data();
         res = new char[vec.size()];
         strncpy_s(res, vec.size(), vec.data(), vec.size());
 
-
-        
         cout << "gcount:" << ifs.gcount() << "\t";
         cout << "size:" << size << "\t\t";
         cout << "strlen:" << strlen(res) << "\t";
         cout << "vec.size(): " << vec.size() << endl;
         cout << res << endl;
-
         return res;
     }
 
-
-    static wchar_t* GetWChars(const char* fileName) {
+    //获取宽字符串（以wchar_t*为缓冲）
+    wchar_t* GetWChars(const char* fileName) {
         cout << "\nMBaseIO::GetWChars:\n";
         
         wchar_t* buffer = nullptr;
@@ -99,8 +89,8 @@ namespace MBaseIO {
         size_t size = static_cast<size_t>(ifs.tellg());
         ifs.seekg(0, ifs.beg);
 
-        buffer = new wchar_t[size + 1];
         //必须要将数组进行初始化，否则会导致后面的wcout无法输出
+        buffer = new wchar_t[size + 1];
         wmemset(buffer, 0, size + 1);
         ifs.read(buffer, size);
         ifs.close();
@@ -132,8 +122,8 @@ namespace MBaseIO {
         }
     }
 
-
-    static wchar_t* GetWCharsV(const char* fileName) {
+    //获取宽字符串（以vector为缓冲）
+    wchar_t* GetWCharsV(const char* fileName) {
         cout << "\nMBaseIO::GetWCharsV:\n";
         std::wifstream ifs(fileName,
             std::wifstream::in | std::wifstream::ate 
@@ -167,8 +157,9 @@ namespace MBaseIO {
     //***************************************************************
     //Write                                                         *
     //***************************************************************
-    static bool OverwriteContent(const char* fileName, const char* content) {
-        cout << "\nMBaseIO::OverwriteContent:\n";
+    //覆盖写入
+    bool OverWriteFile(const char* fileName, const char* content) {
+        cout << "\nMBaseIO::OverWriteFile:\n";
         //打开文件
         std::ofstream truncfile(fileName,
             std::ios::out |
@@ -185,9 +176,9 @@ namespace MBaseIO {
         cout << "strlen(content):" << strlen(content) << endl;
         return true;
     }
-
-    static bool AppendContent(const char* fileName, const char* content) {
-        cout << "\nMBaseIO::AppendContent:\n";
+    //追加写入
+    bool AppendFile(const char* fileName, const char* content) {
+        cout << "\nMBaseIO::AppendFile:\n";
         std::ofstream appfile(fileName,
             std::ios::out |
             std::ios::app      //模式：追加
@@ -202,9 +193,9 @@ namespace MBaseIO {
         return true;
     }
 
-    
-    static bool OverwriteUTF8(const char* fileName, const wchar_t* content) {
-        cout << "\nMBaseIO::OverwriteUTF8:\n";
+    //覆盖写入UTF8
+    bool OverWriteUTF8(const char* fileName, const wchar_t* content) {
+        cout << "\nMBaseIO::OverWriteUTF8:\n";
         std::wofstream wof;
         wof.open(fileName, 
             std::ios::out | std::ios::trunc
