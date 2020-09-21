@@ -1,8 +1,8 @@
 #pragma once
 
 #include "RapidJSONHelper.h"
-#include "JsonIO.h"
-using namespace MJsonIO;
+#include "JsonFileIO.h"
+using namespace MJsonFileIO;
 
 
 void ReadJSON() {
@@ -106,21 +106,20 @@ void WriteJSON() {
 
 
 
-//C++ 编译器会在初始化数组时，自动把 ‘\0’ 放在字符串的末尾。所以也可以利用下面的形式进行初始化char greeting[] = "Hello";
-//C++的char字符串仍然是以'\0'结尾的，而string字符串对象不是以'\0'结尾的。
-
 //数组有可能越界警告
-//而且这里还有内存泄漏
 #pragma warning( disable : 6386 )
-//俄罗斯方块中从文件读取出方块形状
-void ReadBlocks() {
 
+
+//俄罗斯方块中从文件读取出方块形状
+const int BLOCK_LENGTH = 4;
+void ReadBlocks() {
     const char* fileName = "./json/Blocks.json";
     rapidjson::Document doc = GetDocument(fileName);
     if (!doc.IsObject()) {
         cout << "Faild to valid JSON";
         return;
     }
+    //获取节点
     rapidjson::Value& vBlocks = doc["Blocks"];
 
     //形状数量
@@ -137,7 +136,6 @@ void ReadBlocks() {
         blockNum[i] = 0;
         sumNum[i] = 0;
     }
-
     //方块数量
     int count = 0;
     for (int i = 0; i < shapeNum; i++) {
@@ -146,63 +144,48 @@ void ReadBlocks() {
         sumNum[i] += 0;
         count += blockNum[i];
     }
-
-    //初始化三维数组[13][4][4]
-
+    //初始化三维数组[13][BLOCK_LENGTH][BLOCK_LENGTH]
     int*** blocks = new int** [count];
-
     for (int i = 0; i < count; i++) {
-        blocks[i] = new int* [4];
-        for (int j = 0; j < 4; j++) {
-            blocks[i][j] = new int[4];
-            for (int k = 0; k < 4; k++) {
+        blocks[i] = new int* [BLOCK_LENGTH];
+        for (int j = 0; j < BLOCK_LENGTH; j++) {
+            blocks[i][j] = new int[BLOCK_LENGTH];
+            for (int k = 0; k < BLOCK_LENGTH; k++) {
                 blocks[i][j][k] = 0;
             }
         }
     }
-
-
     //将文件中的数组读取到三维数组
     int n = 0;
     for (int i = 0; i < shapeNum; i++) {
         for (int j = 0; j < blockNum[i]; j++) {
             rapidjson::Value matrix = vBlocks[i][j].GetArray();
             for (int k = 0; k < static_cast<int>(matrix.Size()); k++) {
-                int row = static_cast<int>(floor(k / 4));
-                int col = k % 4;
+                int row = static_cast<int>(floor(k / BLOCK_LENGTH));
+                int col = k % BLOCK_LENGTH;
                 blocks[n][row][col] = matrix[k].GetInt();
             }
             n++;
         }
     }
-
     //查看现在三维数组中的数据
     for (int i = 0; i < count; i++) {
-        for (int j = 0; j < 4; j++) {
-            for (int k = 0; k < 4; k++) {
-                cout << blocks[i][j][k];
+        for (int j = 0; j < BLOCK_LENGTH; j++) {
+            for (int k = 0; k < BLOCK_LENGTH; k++) {
+                cout << blocks[i][j][k] << " ";
             }
             cout << std::endl;
         }
         cout << std::endl;
     }
-
-
-    //释放数组资源
-    //如果使用delete进行释放，会报C6283警告
-    //用int*创建的数组，应该用delete[]来释放
-    //delete 和 delete[]虽然都能将申请的空间释放掉，但区别就是析构函数，如果换成对象数组，那么只会调用第一个对象的析构函数。
-    //https://docs.microsoft.com/zh-tw/visualstudio/code-quality/c6283?view=vs-2015
-    //https://www.cnblogs.com/whwywzhj/p/7905176.html
     for (int i = 0; i < count; i++) {
 
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < BLOCK_LENGTH; j++) {
             delete[] blocks[i][j];
         }
         delete[] blocks[i];
     }
     delete[] blocks;
-
     delete[] blockNum;
     delete[] sumNum;
 }

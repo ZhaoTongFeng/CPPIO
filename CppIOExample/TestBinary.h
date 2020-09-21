@@ -1,12 +1,12 @@
 #pragma once
 
-#include "BaseIO.h"
-#include "JsonIO.h"
-#include "BinaryIO.h"
+#include "BaseFileIO.h"
+#include "JsonFileIO.h"
+#include "BinFileIO.h"
 
-using namespace MBaseIO;
-using namespace MJsonIO;
-using namespace MBinaryIO;
+using namespace MBaseFileIO;
+using namespace MJsonFileIO;
+using namespace MBinFileIO;
 
 //持久化测试
 class MyClass
@@ -20,8 +20,8 @@ public:
     void Print() { cout << a << "\n" << b << "\n" << c << "\n" << chars; };
 };
 
-void BinaryIO() {
-    string fileName = "./binary/BinaryIO.bin";
+void BinFileIO() {
+    string fileName = "./binary/BinFileIO.bin";
     //Write
     MyClass cls;
     cls.a = 10;
@@ -131,6 +131,7 @@ public:
             }
             delete[] blocks[i];
         }
+        delete[] blocks;
     }
 
     //从JSON文件读取数据
@@ -191,6 +192,7 @@ public:
         delete[] sumNum;
         return true;
     }
+
     //将数据保存为二进制格式
     bool SaveToBin() {
         //将208个bit保存到7个32bit的int变量中(224的空间，最后剩下16个空bit);
@@ -287,6 +289,8 @@ public:
         }
     }
 };
+
+
 
 //测试
 void LevelTest() {

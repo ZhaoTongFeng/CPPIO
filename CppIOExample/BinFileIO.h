@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace MBinaryIO {
+namespace MBinFileIO {
     //位操作
     //把某一位设置成0或者1
     void SetBit(int& value, int index, bool isT) {

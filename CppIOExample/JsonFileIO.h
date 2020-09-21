@@ -1,15 +1,16 @@
 #pragma once
 
-#include "BaseIO.h"
+#include "BaseFileIO.h"
 //Read
 #include "rapidjson/document.h"
 //Write
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/prettywriter.h"
-using namespace MBaseIO;
 
-namespace MJsonIO {
+using namespace MBaseFileIO;
+
+namespace MJsonFileIO {
     rapidjson::Document GetDocument(const char* fileName) {
         rapidjson::Document doc;
         char* ptr = GetCharsV(fileName);
@@ -44,6 +45,7 @@ namespace MJsonIO {
     typedef rapidjson::PrettyWriter<WStringBuffer, rapidjson::UTF8<wchar_t>, rapidjson::UTF8<wchar_t>> WPrettyWriter;
     bool SaveWRapidJson(WDocument& doc, const char* fileName) {
         WStringBuffer buffer;
+        //输出带换行和空格格式化JSON
         WPrettyWriter writer(buffer);
         doc.Accept(writer);
         const wchar_t* output = buffer.GetString();

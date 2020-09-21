@@ -144,9 +144,9 @@
     <ClCompile Include="CppIOExample.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseIO.h" />
-    <ClInclude Include="BinaryIO.h" />
-    <ClInclude Include="JsonIO.h" />
+    <ClInclude Include="BaseFileIO.h" />
+    <ClInclude Include="BinFileIO.h" />
+    <ClInclude Include="JsonFileIO.h" />
     <ClInclude Include="RapidJSONHelper.h" />
     <ClInclude Include="TestBase.h" />
     <ClInclude Include="TestBinary.h" />
