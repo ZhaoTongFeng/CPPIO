@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\Base">
+      <UniqueIdentifier>{7de80d39-f86d-4a53-9b0e-ff368a2f43da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Json">
+      <UniqueIdentifier>{60c44c36-ca2f-44a5-b964-abea1bb045be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Binary">
+      <UniqueIdentifier>{82ab9993-821a-45da-ab78-80bc00a83fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Example">
+      <UniqueIdentifier>{39bacf3d-aa23-4a73-9306-7e18e97d9482}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Test">
+      <UniqueIdentifier>{16fd3b32-7fcb-4cb6-adc7-03cc82e2fb93}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CPPIO.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Write.h">
+      <Filter>头文件\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Read.h">
+      <Filter>头文件\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="RapidJSONHelper.h">
+      <Filter>头文件\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadJson.h">
+      <Filter>头文件\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryIO.h">
+      <Filter>头文件\Binary</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>头文件\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseExample.h">
+      <Filter>头文件\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="GameExample.h">
+      <Filter>头文件\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonExample.h">
+      <Filter>头文件\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="RapidTest.h">
+      <Filter>头文件\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="UTF8Test.h">
+      <Filter>头文件\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="FuncationTest.h">
+      <Filter>头文件\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryExample.h">
+      <Filter>头文件\Example</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteJson.h">
+      <Filter>头文件\Json</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
